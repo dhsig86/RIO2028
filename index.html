@@ -15,9 +15,10 @@
     <!-- Estilização Customizada -->
     <style>
         :root {
-            --brand-primary: #0284c7; /* Sky 600 */
-            --brand-dark: #0f172a;    /* Slate 900 */
             --brand-bg: #f8fafc;
+            --color-windsor: #10b981; /* Emerald 500 */
+            --color-expomag: #6366f1; /* Indigo 500 */
+            --color-riocentro: #f59e0b; /* Amber 500 */
         }
 
         body { 
@@ -41,7 +42,7 @@
             scroll-snap-type: x mandatory;
         }
         .nav-scroll-area button {
-            scroll-snap-align: center;
+            scroll-snap-align: start;
         }
         
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -56,18 +57,11 @@
         @media (min-width: 768px) { .tab-btn { font-size: 0.8rem; } }
 
         .tab-active {
-            color: var(--brand-primary);
+            color: #0f172a;
             background-color: white;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             font-weight: 800;
-            transform: scale(1.02);
-        }
-
-        /* Animação Seta Mobile */
-        .scroll-hint { animation: bounceRight 1.5s infinite; }
-        @keyframes bounceRight {
-            0%, 100% { transform: translateX(0); opacity: 0.6; }
-            50% { transform: translateX(4px); opacity: 1; }
+            border-bottom: 3px solid #0ea5e9;
         }
 
         .chart-wrapper { position: relative; height: 320px; width: 100%; }
@@ -77,19 +71,19 @@
         input[type=range] {
             -webkit-appearance: none;
             width: 100%;
-            height: 8px;
-            background: #cbd5e1;
+            height: 10px;
+            background: #e2e8f0;
             border-radius: 8px;
             outline: none;
         }
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            width: 26px; height: 26px;
-            background: var(--brand-primary);
+            width: 28px; height: 28px;
+            background: #0ea5e9;
             border: 4px solid white;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -97,7 +91,11 @@
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .metric-bar { transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .metric-bar { transition: width 0.5s ease-out, background-color 0.3s; }
+        
+        /* Ref Link Hover Effect */
+        .ref-link:hover h5 { color: #0284c7; }
+        .ref-link:hover .icon-arrow { transform: translateX(4px); opacity: 1; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -123,23 +121,21 @@
                 </div>
             </div>
         </div>
-        <!-- Background Gradient -->
         <div class="absolute inset-0 bg-gradient-to-tr from-slate-900 via-slate-900 to-sky-900/20 pointer-events-none"></div>
     </header>
 
-    <!-- Navegação Mobile-First -->
+    <!-- Navegação -->
     <nav class="max-w-7xl mx-auto w-full -mt-8 px-4 z-20 relative">
         <div class="relative bg-slate-100 p-1.5 rounded-2xl shadow-xl border border-white/40">
             <div class="flex items-center overflow-x-auto no-scrollbar nav-scroll-area gap-2" id="scroll-menu">
                 <button onclick="nav('dashboard')" id="nav-dashboard" class="tab-btn py-3 px-5 rounded-xl uppercase tracking-wide tab-active">Parecer Executivo</button>
                 <button onclick="nav('mcda')" id="nav-mcda" class="tab-btn py-3 px-5 rounded-xl text-slate-500 font-bold uppercase tracking-wide">Matriz Comparativa</button>
-                <button onclick="nav('density')" id="nav-density" class="tab-btn py-3 px-5 rounded-xl text-slate-500 font-bold uppercase tracking-wide">Simulador</button>
+                <button onclick="nav('density')" id="nav-density" class="tab-btn py-3 px-5 rounded-xl text-slate-500 font-bold uppercase tracking-wide">Atmosfera & Ocupação</button>
                 <button onclick="nav('strategies')" id="nav-strategies" class="tab-btn py-3 px-5 rounded-xl text-slate-500 font-bold uppercase tracking-wide">Estratégias</button>
                 <button onclick="nav('refs')" id="nav-refs" class="tab-btn py-3 px-5 rounded-xl text-slate-500 font-bold uppercase tracking-wide">Referências</button>
             </div>
-            <!-- Dica de Scroll Mobile -->
             <div id="scroll-hint" class="absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-slate-200 to-transparent flex items-center justify-end pr-2 md:hidden rounded-r-2xl pointer-events-none">
-                <svg class="w-5 h-5 text-sky-600 scroll-hint" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                <svg class="w-5 h-5 text-sky-600 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
             </div>
         </div>
     </nav>
@@ -151,37 +147,38 @@
         <section id="sec-dashboard" class="fade-in space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 <!-- Parecer Principal -->
-                <div class="lg:col-span-8 glass-card rounded-3xl p-6 md:p-8 border-l-[6px] border-sky-600 relative overflow-hidden">
+                <div class="lg:col-span-8 glass-card rounded-3xl p-6 md:p-8 border-l-[6px] border-emerald-500 relative overflow-hidden">
                     <div class="relative z-10">
-                        <span class="text-[10px] font-black text-sky-600 uppercase tracking-widest bg-sky-50 px-3 py-1 rounded-full mb-4 inline-block">Vencedor da Concorrência</span>
-                        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-4 leading-tight">Recomendação: Complexo Windsor</h2>
+                        <span class="text-[10px] font-black text-emerald-600 uppercase tracking-widest bg-emerald-50 px-3 py-1 rounded-full mb-4 inline-block">Recomendação Final</span>
+                        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-4 leading-tight">Vencedor: Complexo Windsor (Barra)</h2>
                         <p class="text-slate-600 text-sm md:text-base leading-relaxed mb-6">
-                            Após análise tripla (Windsor vs Riocentro vs Expo Mag), o <strong>Complexo Windsor (Barra)</strong> é a única opção que entrega a "Imersão de Campus" necessária para um Congresso Mundial.
+                            Para garantir o sucesso do evento híbrido com <strong>4.000 participantes</strong>, a estratégia mandatória é a "Imersão de Campus". O Windsor oferece a melhor blindagem contra absenteísmo e a acústica necessária para o programa científico mundial.
                             <br><br>
-                            O <strong>Expo Mag (SulAmérica)</strong> tem o melhor acesso (Metrô), mas sua localização na Cidade Nova gera percepção de insegurança e não possui rede hoteleira "walking distance", aumentando o risco logístico e de absenteísmo.
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Sobre o Transporte:</span><br>
+                            Embora exija deslocamento do aeroporto, a operação local se beneficia da integração Metrô (Jardim Oceânico) + Uber Curto, além de 60% do público estar "walking distance" nos hotéis do complexo.
                         </p>
                         
-                        <!-- Mini Scorecards Mobile Stack -->
+                        <!-- Scorecards -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-8">
-                            <div class="bg-sky-50 p-4 rounded-2xl border border-sky-100 shadow-sm">
-                                <p class="text-[9px] uppercase font-bold text-sky-700 mb-1">Windsor (Barra)</p>
+                            <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100 shadow-sm">
+                                <p class="text-[9px] uppercase font-bold text-emerald-700 mb-1">Windsor</p>
                                 <div class="flex items-center justify-between">
                                     <span class="text-2xl font-bold text-slate-900">92</span>
-                                    <span class="text-[9px] font-bold text-white bg-green-500 px-2 py-0.5 rounded-full">Vencedor</span>
+                                    <span class="text-[9px] font-bold text-white bg-emerald-500 px-2 py-0.5 rounded-full">Vencedor</span>
                                 </div>
                             </div>
-                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 opacity-70">
-                                <p class="text-[9px] uppercase font-bold text-slate-400 mb-1">Riocentro</p>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-2xl font-bold text-slate-700">74</span>
-                                    <span class="text-[9px] font-bold text-slate-500 bg-slate-200 px-2 py-0.5 rounded-full">Disperso</span>
-                                </div>
-                            </div>
-                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 opacity-70">
-                                <p class="text-[9px] uppercase font-bold text-slate-400 mb-1">Expo Mag</p>
+                            <div class="bg-indigo-50 p-4 rounded-2xl border border-indigo-100 opacity-80">
+                                <p class="text-[9px] uppercase font-bold text-indigo-600 mb-1">Expo Mag</p>
                                 <div class="flex items-center justify-between">
                                     <span class="text-2xl font-bold text-slate-700">68</span>
-                                    <span class="text-[9px] font-bold text-slate-500 bg-slate-200 px-2 py-0.5 rounded-full">Logística</span>
+                                    <span class="text-[9px] font-bold text-white bg-indigo-400 px-2 py-0.5 rounded-full">Logística</span>
+                                </div>
+                            </div>
+                            <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 opacity-80">
+                                <p class="text-[9px] uppercase font-bold text-amber-600 mb-1">Riocentro</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-slate-700">74</span>
+                                    <span class="text-[9px] font-bold text-white bg-amber-400 px-2 py-0.5 rounded-full">Disperso</span>
                                 </div>
                             </div>
                         </div>
@@ -193,21 +190,21 @@
                     <div class="bg-slate-900 text-white rounded-3xl p-6 shadow-xl h-full flex flex-col justify-between">
                         <div>
                             <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                                Capacidade Real
+                                <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                Capacidade Técnica
                             </h3>
                             <div class="space-y-4">
                                 <div class="p-3 bg-white/5 rounded-2xl border border-white/10">
-                                    <div class="flex justify-between text-xs text-slate-300 mb-2"><span>Windsor</span><span class="text-sky-400 font-bold">4.5k Pax</span></div>
-                                    <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-sky-500 w-[90%] h-full rounded-full"></div></div>
+                                    <div class="flex justify-between text-xs text-slate-300 mb-2"><span>Windsor</span><span class="text-emerald-400 font-bold">4.5k Pax</span></div>
+                                    <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-emerald-500 w-[90%] h-full rounded-full"></div></div>
                                 </div>
                                 <div class="p-3 bg-white/5 rounded-2xl border border-white/10">
                                     <div class="flex justify-between text-xs text-slate-300 mb-2"><span>Riocentro</span><span class="text-amber-400 font-bold">10k+ Pax</span></div>
                                     <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-amber-500 w-full h-full rounded-full"></div></div>
                                 </div>
                                 <div class="p-3 bg-white/5 rounded-2xl border border-white/10">
-                                    <div class="flex justify-between text-xs text-slate-300 mb-2"><span>Expo Mag</span><span class="text-slate-400 font-bold">5k Pax</span></div>
-                                    <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-slate-500 w-[95%] h-full rounded-full"></div></div>
+                                    <div class="flex justify-between text-xs text-slate-300 mb-2"><span>Expo Mag</span><span class="text-indigo-400 font-bold">5k Pax</span></div>
+                                    <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden"><div class="bg-indigo-500 w-[95%] h-full rounded-full"></div></div>
                                 </div>
                             </div>
                         </div>
@@ -223,10 +220,13 @@
         <section id="sec-mcda" class="hidden fade-in space-y-6">
             <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                    <h3 class="text-xl font-bold text-slate-900">Comparativo Multicritério</h3>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900">Matriz Comparativa</h3>
+                        <p class="text-xs text-slate-500 mt-1">Cores de contraste para facilitar identificação visual.</p>
+                    </div>
                     <div class="bg-slate-100 p-1 rounded-xl flex w-full md:w-auto">
-                        <button onclick="updateMCDA('sci')" id="btn-sci" class="flex-1 px-5 py-2 rounded-lg text-[10px] font-bold uppercase bg-white shadow text-sky-700 transition">Científico</button>
-                        <button onclick="updateMCDA('biz')" id="btn-biz" class="flex-1 px-5 py-2 rounded-lg text-[10px] font-bold uppercase text-slate-500 transition">Logística</button>
+                        <button onclick="updateMCDA('sci')" id="btn-sci" class="flex-1 px-5 py-2 rounded-lg text-[10px] font-bold uppercase bg-white shadow text-slate-900 transition">Perfil Científico</button>
+                        <button onclick="updateMCDA('biz')" id="btn-biz" class="flex-1 px-5 py-2 rounded-lg text-[10px] font-bold uppercase text-slate-400 transition">Perfil Logístico</button>
                     </div>
                 </div>
 
@@ -236,21 +236,26 @@
                     </div>
                     <div class="space-y-4">
                         <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-xs text-slate-600 leading-relaxed">
-                            <strong class="block text-sky-700 mb-1 uppercase tracking-wide">Análise de Trade-off</strong>
+                            <strong class="block text-slate-900 mb-1 uppercase tracking-wide">Análise de Trade-off</strong>
                             <span id="mcda-desc">O Expo Mag pontua alto em acesso (Metrô), mas sua nota despenca em "Experiência Noturna" e "Hotelaria". O Windsor mantém equilíbrio alto em todos os quesitos críticos.</span>
                         </div>
                         <div id="mcda-table" class="space-y-1 text-sm"></div>
+                        <div class="flex gap-4 justify-center mt-4 text-[10px] font-bold uppercase">
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full bg-emerald-500"></div>Windsor</div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full bg-indigo-500"></div>Expo Mag</div>
+                            <div class="flex items-center gap-1"><div class="w-3 h-3 rounded-full bg-amber-500"></div>Riocentro</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SIMULADOR -->
+        <!-- SIMULADOR (CORRIGIDO) -->
         <section id="sec-density" class="hidden fade-in space-y-6">
             <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm">
                 <div class="mb-8">
-                    <h3 class="text-xl font-bold text-slate-900">Simulador de Densidade</h3>
-                    <p class="text-xs text-slate-500 mt-1">Comparando a sensação térmica de "evento cheio" nas 3 opções.</p>
+                    <h3 class="text-xl font-bold text-slate-900">Atmosfera & Ocupação</h3>
+                    <p class="text-xs text-slate-500 mt-1">Simulação dinâmica da percepção de "sucesso" baseada na densidade (m²/pax).</p>
                 </div>
 
                 <div class="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-200 mb-8">
@@ -258,27 +263,39 @@
                         <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Participantes Simultâneos</span>
                         <span id="pax-val" class="text-4xl font-black text-slate-900">4.000</span>
                     </div>
-                    <input type="range" min="1500" max="6000" step="100" value="4000" oninput="updateDensity(this.value)">
+                    <!-- Slider -->
+                    <input type="range" min="1500" max="6000" step="100" value="4000" id="density-slider" oninput="updateDensity(this.value)">
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <!-- Windsor -->
-                    <div id="card-w" class="p-5 border-2 rounded-2xl bg-white border-green-100 transition-all">
-                        <div class="flex justify-between mb-3"><span class="font-bold text-sm">Windsor</span><span class="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">Ideal</span></div>
-                        <p class="text-xs text-slate-400 mb-1">m²/pax: <strong class="text-slate-800" id="val-w">1.1</strong></p>
-                        <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden"><div id="bar-w" class="metric-bar h-full bg-green-500" style="width: 80%"></div></div>
+                    <!-- Windsor Card -->
+                    <div id="card-w" class="p-5 border-2 rounded-2xl bg-white border-slate-100 transition-all duration-300">
+                        <div class="flex justify-between mb-3">
+                            <span class="font-bold text-sm text-slate-900">Windsor</span>
+                            <span id="badge-w" class="text-[9px] px-2 py-0.5 rounded font-bold uppercase transition-colors">Calculando...</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-1">m²/pax: <strong class="text-slate-800" id="val-w">--</strong></p>
+                        <div class="w-full bg-slate-100 h-1.5 rounded-full mt-2"><div id="bar-w" class="metric-bar h-full rounded-full" style="width: 0%"></div></div>
                     </div>
-                    <!-- Expo Mag -->
-                    <div id="card-s" class="p-5 border-2 rounded-2xl bg-white border-slate-100 transition-all">
-                        <div class="flex justify-between mb-3"><span class="font-bold text-sm">Expo Mag</span><span class="text-[9px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded font-bold">Denso</span></div>
-                        <p class="text-xs text-slate-400 mb-1">m²/pax: <strong class="text-slate-800" id="val-s">1.3</strong></p>
-                        <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden"><div id="bar-s" class="metric-bar h-full bg-blue-500" style="width: 70%"></div></div>
+                    
+                    <!-- Expo Mag Card -->
+                    <div id="card-s" class="p-5 border-2 rounded-2xl bg-white border-slate-100 transition-all duration-300">
+                        <div class="flex justify-between mb-3">
+                            <span class="font-bold text-sm text-slate-900">Expo Mag</span>
+                            <span id="badge-s" class="text-[9px] px-2 py-0.5 rounded font-bold uppercase transition-colors">Calculando...</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-1">m²/pax: <strong class="text-slate-800" id="val-s">--</strong></p>
+                        <div class="w-full bg-slate-100 h-1.5 rounded-full mt-2"><div id="bar-s" class="metric-bar h-full rounded-full" style="width: 0%"></div></div>
                     </div>
-                    <!-- Riocentro -->
-                    <div id="card-r" class="p-5 border-2 rounded-2xl bg-white border-amber-100 transition-all">
-                        <div class="flex justify-between mb-3"><span class="font-bold text-sm">Riocentro</span><span class="text-[9px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-bold">Disperso</span></div>
-                        <p class="text-xs text-slate-400 mb-1">m²/pax: <strong class="text-slate-800" id="val-r">3.0</strong></p>
-                        <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden"><div id="bar-r" class="metric-bar h-full bg-amber-500" style="width: 30%"></div></div>
+
+                    <!-- Riocentro Card -->
+                    <div id="card-r" class="p-5 border-2 rounded-2xl bg-white border-slate-100 transition-all duration-300">
+                        <div class="flex justify-between mb-3">
+                            <span class="font-bold text-sm text-slate-900">Riocentro</span>
+                            <span id="badge-r" class="text-[9px] px-2 py-0.5 rounded font-bold uppercase transition-colors">Calculando...</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-1">m²/pax: <strong class="text-slate-800" id="val-r">--</strong></p>
+                        <div class="w-full bg-slate-100 h-1.5 rounded-full mt-2"><div id="bar-r" class="metric-bar h-full rounded-full" style="width: 0%"></div></div>
                     </div>
                 </div>
             </div>
@@ -293,10 +310,9 @@
                         <span class="text-[9px] font-bold text-sky-400 uppercase tracking-widest border border-sky-400/30 px-2 py-1 rounded mb-3 inline-block">Deep Research</span>
                         <h3 class="text-xl font-bold mb-3">E a Marina da Glória?</h3>
                         <p class="text-xs text-slate-300 leading-relaxed mb-6">
-                            Analisada e <strong>descartada tecnicamente</strong>. O pavilhão coberto possui apenas 4.800m², insuficiente para acomodar 12 salas + 3.000m² de feira sem uso massivo de tendas externas, o que é inviável em Novembro (chuva/calor).
+                            Analisada e <strong>descartada tecnicamente</strong>. O pavilhão coberto possui apenas 4.800m², insuficiente para acomodar 12 salas + 3.000m² de feira sem uso massivo de tendas externas, o que é inviável em Novembro (risco climático/acústico).
                         </p>
                     </div>
-                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-sky-500/20 rounded-full blur-3xl"></div>
                 </div>
 
                 <!-- Strategies List -->
@@ -306,7 +322,7 @@
                         <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
                             <h4 class="font-bold text-xs text-sky-700 uppercase mb-2">1. Fator Segurança (Cidade Nova)</h4>
                             <p class="text-xs text-slate-600 leading-relaxed">
-                                O Expo Mag (SulAmérica) exige shuttle noturno obrigatório devido ao esvaziamento do Centro. O Windsor permite circulação a pé segura, essencial para o turista internacional.
+                                O Expo Mag exige shuttle noturno obrigatório devido ao esvaziamento do Centro. O Windsor permite circulação a pé segura, essencial para o turista internacional.
                             </p>
                         </div>
                         <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
@@ -320,28 +336,119 @@
             </div>
         </section>
 
-        <!-- REFERENCIAS -->
+        <!-- REFERENCIAS ROBUSTAS (ATUALIZADA) -->
         <section id="sec-refs" class="hidden fade-in space-y-6">
             <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200">
-                <h3 class="text-xl font-bold text-slate-900 mb-6">Fontes de Auditoria</h3>
+                <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+                    <span class="bg-sky-100 text-sky-600 p-1.5 rounded-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg></span>
+                    Top 10 Referências Auditáveis
+                </h3>
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <a href="#" class="block p-4 rounded-2xl border border-slate-100 hover:border-sky-200 transition bg-slate-50 group">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">GL Events</p>
-                        <h5 class="text-sm font-bold text-slate-800 group-hover:text-sky-600 transition">Factsheet Riocentro Pavilhão 5</h5>
+                    
+                    <!-- 1. Windsor -->
+                    <a href="https://windsorhoteis.com/espaco-de-eventos/centro-de-convencoes-windsor-barra/" target="_blank" class="ref-link block p-5 border border-slate-100 rounded-2xl bg-slate-50 hover:border-emerald-300 transition group">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Venue Oficial</p>
+                            <svg class="w-3 h-3 text-slate-300 group-hover:text-emerald-500 icon-arrow transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </div>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">Windsor Convention & Hotel</h5>
+                        <p class="text-[10px] text-slate-500">Acesso às plantas baixas do Complexo Barra e Oceânico, capacidades de salas modulares e laudos técnicos.</p>
                     </a>
-                    <a href="#" class="block p-4 rounded-2xl border border-slate-100 hover:border-sky-200 transition bg-slate-50 group">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Windsor Hoteis</p>
-                        <h5 class="text-sm font-bold text-slate-800 group-hover:text-sky-600 transition">Planta Baixa Complexo Barra</h5>
+
+                    <!-- 2. Riocentro -->
+                    <a href="https://riocentro.com.br/organizadores/espacos/" target="_blank" class="ref-link block p-5 border border-slate-100 rounded-2xl bg-slate-50 hover:border-amber-300 transition group">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">GL Events</p>
+                            <svg class="w-3 h-3 text-slate-300 group-hover:text-amber-500 icon-arrow transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </div>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">Riocentro - Pavilhão 5</h5>
+                        <p class="text-[10px] text-slate-500">Especificações técnicas do pavilhão, áreas de carga e descarga e mapa de utilidades.</p>
                     </a>
-                    <a href="#" class="block p-4 rounded-2xl border border-slate-100 hover:border-sky-200 transition bg-slate-50 group">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Expo Mag</p>
-                        <h5 class="text-sm font-bold text-slate-800 group-hover:text-sky-600 transition">Capacidade Técnica (Ex-SulAmérica)</h5>
+
+                    <!-- 3. Expo Mag -->
+                    <a href="https://expomag.com.br/o-espaco/" target="_blank" class="ref-link block p-5 border border-slate-100 rounded-2xl bg-slate-50 hover:border-indigo-300 transition group">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Cidade Nova</p>
+                            <svg class="w-3 h-3 text-slate-300 group-hover:text-indigo-500 icon-arrow transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </div>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">Expo Mag (Ex-SulAmérica)</h5>
+                        <p class="text-[10px] text-slate-500">Detalhes técnicos do pavilhão térreo e mezanino, incluindo acesso ao metrô.</p>
                     </a>
-                    <a href="#" class="block p-4 rounded-2xl border border-slate-100 hover:border-sky-200 transition bg-slate-50 group">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">ICCA Report 2023</p>
-                        <h5 class="text-sm font-bold text-slate-800 group-hover:text-sky-600 transition">Medical Congress Statistics</h5>
+
+                    <!-- 4. ICCA -->
+                    <a href="https://www.iccaworld.org/articles/post/4-trends-shaping-the-future-of-medical-events/" target="_blank" class="ref-link block p-5 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Benchmark Global</p>
+                            <svg class="w-3 h-3 text-slate-300 group-hover:text-sky-500 icon-arrow transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </div>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">ICCA Statistics Report 2023</h5>
+                        <p class="text-[10px] text-slate-500">Dados estatísticos sobre densidade média e comportamento em congressos médicos.</p>
                     </a>
+
+                    <!-- 5. ABIH-RJ -->
+                    <a href="https://abihrj.com.br/pesquisas/" target="_blank" class="ref-link block p-5 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Hotelaria</p>
+                            <svg class="w-3 h-3 text-slate-300 group-hover:text-sky-500 icon-arrow transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </div>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">ABIH-RJ Inventário</h5>
+                        <p class="text-[10px] text-slate-500">Censo hoteleiro oficial da Associação Brasileira da Indústria de Hotéis do RJ.</p>
+                    </a>
+
+                    <!-- 6. Visit Rio -->
+                    <a href="https://visitrio.com.br/" target="_blank" class="ref-link block p-5 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Destination Marketing</p>
+                            <svg class="w-3 h-3 text-slate-300 group-hover:text-sky-500 icon-arrow transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </div>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">Visit Rio (CVB)</h5>
+                        <p class="text-[10px] text-slate-500">Convention & Visitors Bureau - Informações sobre apoio institucional e logística da cidade.</p>
+                    </a>
+
+                    <!-- 7. INMET -->
+                    <a href="https://portal.inmet.gov.br/normais" target="_blank" class="ref-link block p-5 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Climatologia</p>
+                            <svg class="w-3 h-3 text-slate-300 group-hover:text-sky-500 icon-arrow transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </div>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">Normais Climatológicas (INMET)</h5>
+                        <p class="text-[10px] text-slate-500">Dados históricos de precipitação e temperatura para Novembro no Rio de Janeiro.</p>
+                    </a>
+
+                    <!-- 8. MetrôRio -->
+                    <a href="https://www.metrorio.com.br/estacoes/" target="_blank" class="ref-link block p-5 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Mobilidade</p>
+                            <svg class="w-3 h-3 text-slate-300 group-hover:text-sky-500 icon-arrow transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </div>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">MetrôRio - Integração Barra</h5>
+                        <p class="text-[10px] text-slate-500">Mapas da Linha 4 (Jardim Oceânico) e conexão com BRT/Uber.</p>
+                    </a>
+
+                    <!-- 9. ABEOC -->
+                    <a href="http://www.abeoc.org.br/biblioteca/" target="_blank" class="ref-link block p-5 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Qualidade</p>
+                            <svg class="w-3 h-3 text-slate-300 group-hover:text-sky-500 icon-arrow transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </div>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">ABEOC Brasil</h5>
+                        <p class="text-[10px] text-slate-500">Diretrizes de qualidade e dimensionamento para eventos corporativos e congressos.</p>
+                    </a>
+
+                    <!-- 10. Skift Meetings -->
+                    <a href="https://meetings.skift.com/" target="_blank" class="ref-link block p-5 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
+                        <div class="flex justify-between mb-2">
+                            <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest">Tendências</p>
+                            <svg class="w-3 h-3 text-slate-300 group-hover:text-sky-500 icon-arrow transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        </div>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">Skift Meetings</h5>
+                        <p class="text-[10px] text-slate-500">Estudos sobre "Event Design" e impacto da densidade na experiência do participante.</p>
+                    </a>
+
                 </div>
+                
+                <p class="text-[10px] text-center text-slate-400 mt-6 italic">Nota: Alguns links externos podem exigir login ou levar a páginas institucionais gerais.</p>
             </div>
         </section>
 
@@ -376,22 +483,29 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-100 py-8 px-6 mt-auto">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-            <div>
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Consultoria Estratégica</p>
-                <p class="text-xs font-bold text-slate-600">Dr. Dario Hart & Dra. Larissa Salomão</p>
-            </div>
-            <div>
-                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Emissão</p>
-                <p class="text-xs font-bold text-slate-600">Fev / 2026</p>
-            </div>
+    <!-- Footer Discreto -->
+    <footer class="bg-white border-t border-slate-100 py-6 px-6 mt-auto">
+        <div class="max-w-7xl mx-auto text-center space-y-3">
+            <p class="text-[9px] text-slate-400 font-medium">
+                Dr. Dario Hart & Dra. Larissa Salomão
+            </p>
+            <p class="text-[9px] text-slate-300 leading-relaxed max-w-2xl mx-auto">
+                Baseado em capacidades técnicas oficiais (Windsor/GL Events/ExpoMag), benchmarks ICCA e inventário hoteleiro ABIH-RJ. 
+                Os dados de densidade são projeções matemáticas e não garantem fluxo real sem gestão operacional.
+            </p>
+            <p class="text-[9px] font-bold text-slate-300 uppercase tracking-widest">© 2026 OTOSIG</p>
         </div>
     </footer>
 
     <!-- Lógica -->
     <script>
+        // Cores Globais
+        const colors = {
+            windsor: { fill: 'rgba(16, 185, 129, 0.2)', border: '#10b981' }, // Emerald
+            expomag: { fill: 'rgba(99, 102, 241, 0.2)', border: '#6366f1' }, // Indigo
+            riocentro: { fill: 'rgba(245, 158, 11, 0.2)', border: '#f59e0b' } // Amber
+        };
+
         // Scroll Hint Logic
         const navContainer = document.getElementById('scroll-menu');
         const scrollHint = document.getElementById('scroll-hint');
@@ -440,14 +554,14 @@
                 data: {
                     labels: mcdaData.sci.labels,
                     datasets: [
-                        { label: 'Windsor', data: [], backgroundColor: 'rgba(2,132,199,0.2)', borderColor: '#0284c7', borderWidth: 2, pointBackgroundColor: '#0284c7' },
-                        { label: 'Expo Mag', data: [], backgroundColor: 'rgba(99,102,241,0.1)', borderColor: '#6366f1', borderWidth: 2, pointBackgroundColor: '#6366f1' },
-                        { label: 'Riocentro', data: [], backgroundColor: 'rgba(148,163,184,0.1)', borderColor: '#94a3b8', borderWidth: 2, pointBackgroundColor: '#94a3b8' }
+                        { label: 'Windsor', data: [], backgroundColor: colors.windsor.fill, borderColor: colors.windsor.border, borderWidth: 2 },
+                        { label: 'Expo Mag', data: [], backgroundColor: colors.expomag.fill, borderColor: colors.expomag.border, borderWidth: 2 },
+                        { label: 'Riocentro', data: [], backgroundColor: colors.riocentro.fill, borderColor: colors.riocentro.border, borderWidth: 2 }
                     ]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    scales: { r: { suggestedMin: 0, suggestedMax: 100, ticks: { display: false }, pointLabels: { font: { family: 'Plus Jakarta Sans', size: 10 } } } },
+                    scales: { r: { suggestedMin: 0, suggestedMax: 100, ticks: { display: false }, pointLabels: { font: { family: 'Plus Jakarta Sans', size: 10, weight: '600' } } } },
                     plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { family: 'Plus Jakarta Sans', size: 10 } } } }
                 }
             });
@@ -463,11 +577,11 @@
             
             // Buttons UI
             document.getElementById('btn-sci').className = mode === 'sci' ? 
-                "flex-1 px-5 py-2 rounded-lg text-[10px] font-bold uppercase bg-white shadow text-sky-700 transition" : 
+                "flex-1 px-5 py-2 rounded-lg text-[10px] font-bold uppercase bg-white shadow text-slate-900 transition" : 
                 "flex-1 px-5 py-2 rounded-lg text-[10px] font-bold uppercase text-slate-500 transition";
             
             document.getElementById('btn-biz').className = mode === 'biz' ? 
-                "flex-1 px-5 py-2 rounded-lg text-[10px] font-bold uppercase bg-white shadow text-sky-700 transition" : 
+                "flex-1 px-5 py-2 rounded-lg text-[10px] font-bold uppercase bg-white shadow text-slate-900 transition" : 
                 "flex-1 px-5 py-2 rounded-lg text-[10px] font-bold uppercase text-slate-500 transition";
 
             // Description Logic
@@ -486,30 +600,63 @@
                     <div class="flex justify-between py-2 border-b border-slate-50 last:border-0 hover:bg-slate-50 px-2 rounded transition">
                         <span class="font-bold text-slate-600 text-xs">${l}</span>
                         <div class="flex gap-4 text-xs">
-                            <span class="font-bold text-sky-600 w-6 text-center">${data.windsor[i]}</span>
+                            <span class="font-bold text-emerald-600 w-6 text-center">${data.windsor[i]}</span>
                             <span class="font-bold text-indigo-500 w-6 text-center">${data.sulamerica[i]}</span>
-                            <span class="font-bold text-slate-400 w-6 text-center">${data.riocentro[i]}</span>
+                            <span class="font-bold text-amber-500 w-6 text-center">${data.riocentro[i]}</span>
                         </div>
                     </div>`;
             });
         }
 
+        // LÓGICA CORRIGIDA DO SIMULADOR (DYNAMIC LABELS)
         function updateDensity(val) {
             document.getElementById('pax-val').innerText = parseInt(val).toLocaleString();
             
             // Areas: Windsor 4500, ExpoMag 5500, Riocentro 12000
-            const dw = (4500/val).toFixed(1);
-            const ds = (5500/val).toFixed(1);
-            const dr = (12000/val).toFixed(1);
-
-            document.getElementById('val-w').innerText = dw;
-            document.getElementById('bar-w').style.width = Math.min((val/4500)*100, 100)+'%';
+            const areas = { w: 4500, s: 5500, r: 12000 };
+            const ids = ['w', 's', 'r']; // Windsor, Sulamerica, Riocentro
             
-            document.getElementById('val-s').innerText = ds;
-            document.getElementById('bar-s').style.width = Math.min((val/5500)*100, 100)+'%';
+            ids.forEach(id => {
+                const area = areas[id];
+                const density = (area / val).toFixed(1);
+                
+                // Update Text
+                document.getElementById(`val-${id}`).innerText = density;
+                document.getElementById(`bar-${id}`).style.width = Math.min((val/area)*100, 100) + '%';
+                
+                // Update Labels & Colors based on density logic
+                const badge = document.getElementById(`badge-${id}`);
+                const bar = document.getElementById(`bar-${id}`);
+                const card = document.getElementById(`card-${id}`);
 
-            document.getElementById('val-r').innerText = dr;
-            document.getElementById('bar-r').style.width = Math.min((val/12000)*100, 100)+'%';
+                // Logic: 
+                // < 1.0 = Superlotado (Red)
+                // 1.0 - 2.0 = Ideal (Green)
+                // 2.0 - 3.5 = Disperso (Yellow/Amber)
+                // > 3.5 = Vazio (Gray/Blue)
+
+                if (density < 1.0) {
+                    badge.innerText = "Denso/Lotado";
+                    badge.className = "text-[9px] px-2 py-0.5 rounded font-bold uppercase transition-colors bg-red-100 text-red-700";
+                    bar.className = "metric-bar h-full rounded-full bg-red-500";
+                    card.style.borderColor = "#fee2e2"; // Red 100
+                } else if (density <= 2.2) {
+                    badge.innerText = "Ideal/Vibrante";
+                    badge.className = "text-[9px] px-2 py-0.5 rounded font-bold uppercase transition-colors bg-emerald-100 text-emerald-700";
+                    bar.className = "metric-bar h-full rounded-full bg-emerald-500";
+                    card.style.borderColor = "#d1fae5"; // Emerald 100
+                } else if (density <= 4.0) {
+                    badge.innerText = "Disperso";
+                    badge.className = "text-[9px] px-2 py-0.5 rounded font-bold uppercase transition-colors bg-amber-100 text-amber-700";
+                    bar.className = "metric-bar h-full rounded-full bg-amber-500";
+                    card.style.borderColor = "#fef3c7"; // Amber 100
+                } else {
+                    badge.innerText = "Vazio (Risco)";
+                    badge.className = "text-[9px] px-2 py-0.5 rounded font-bold uppercase transition-colors bg-slate-200 text-slate-600";
+                    bar.className = "metric-bar h-full rounded-full bg-slate-400";
+                    card.style.borderColor = "#f1f5f9"; // Slate 100
+                }
+            });
         }
 
         function openRFP() { document.getElementById('modal-rfp').classList.remove('hidden'); }
