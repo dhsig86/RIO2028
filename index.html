@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rio 2028 | Estratégia ABORL-CCF & Rhinology</title>
+    
+    <!-- Bibliotecas Externas -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Estilização Customizada -->
+    <style>
+        :root {
+            --brand-primary: #0284c7; /* Sky 600 */
+            --brand-dark: #0f172a;    /* Slate 900 */
+            --brand-surface: #ffffff;
+            --brand-bg: #f8fafc;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--brand-bg); 
+            color: #334155;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; /* Evita scroll horizontal indesejado no mobile */
+        }
+
+        /* Utilitários de Interface */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        /* Navegação Mobile - Esconde barra de rolagem mas permite swipe */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .tab-btn {
+            transition: all 0.3s ease;
+            position: relative;
+            white-space: nowrap; /* Impede quebra de texto no botão */
+            flex-shrink: 0; /* Impede botão de amassar no mobile */
+        }
+
+        .tab-active {
+            color: var(--brand-primary);
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            font-weight: 800;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px; /* Mobile height */
+            width: 100%;
+        }
+        @media (min-width: 768px) {
+            .chart-wrapper { height: 380px; } /* Desktop height */
+        }
+
+        /* Slider Customizado */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 8px;
+            outline: none;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 28px; /* Maior para touch */
+            height: 28px;
+            background: var(--brand-primary);
+            border: 4px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:active { transform: scale(1.1); }
+
+        /* Animações */
+        .fade-in { animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .metric-bar { transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header Corporativo -->
+    <header class="bg-slate-900 text-white pt-8 pb-16 px-4 md:pt-10 md:pb-20 md:px-6 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-end relative z-10 gap-4">
+            <div>
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="px-2 py-1 bg-sky-500/20 text-sky-400 text-[10px] font-bold uppercase tracking-widest rounded">Dossiê Técnico</span>
+                    <span class="text-[10px] text-slate-400 uppercase tracking-widest">Rio de Janeiro | Nov 2028</span>
+                </div>
+                <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight text-white mb-1 leading-tight">58º Congresso Brasileiro ORL-CCF</h1>
+                <p class="text-base md:text-lg text-slate-300 font-medium flex items-center gap-2">
+                    <span class="text-sky-500">●</span> Rhinology World Congress
+                </p>
+            </div>
+            <div class="w-full md:w-auto text-left md:text-right mt-2 md:mt-0 border-t border-slate-700 md:border-0 pt-4 md:pt-0">
+                <p class="text-[9px] text-slate-500 uppercase tracking-widest font-bold mb-1">Powered by</p>
+                <div class="flex items-center md:justify-end gap-1">
+                    <span class="text-lg md:text-xl font-bold tracking-tighter text-white">OTOSIG</span>
+                    <div class="w-2 h-2 bg-sky-500 rounded-full"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Background element -->
+        <div class="absolute top-0 right-0 w-full md:w-1/3 h-full bg-gradient-to-b md:bg-gradient-to-l from-sky-900/20 to-transparent pointer-events-none"></div>
+    </header>
+
+    <!-- Navegação Principal (Swipe no Mobile) -->
+    <nav class="max-w-7xl mx-auto w-full -mt-6 md:-mt-8 px-4 z-20 relative">
+        <div class="bg-slate-100 p-1.5 rounded-2xl flex items-center shadow-xl border border-white/20 overflow-x-auto no-scrollbar gap-2 md:gap-1">
+            <button onclick="nav('dashboard')" id="nav-dashboard" class="tab-btn flex-1 py-3 px-5 md:px-4 rounded-xl text-xs font-bold uppercase tracking-wide tab-active">Dashboard</button>
+            <button onclick="nav('mcda')" id="nav-mcda" class="tab-btn flex-1 py-3 px-5 md:px-4 rounded-xl text-xs font-bold uppercase tracking-wide text-slate-500 hover:text-slate-800">Matriz Decisória</button>
+            <button onclick="nav('density')" id="nav-density" class="tab-btn flex-1 py-3 px-5 md:px-4 rounded-xl text-xs font-bold uppercase tracking-wide text-slate-500 hover:text-slate-800">Simulador</button>
+            <button onclick="nav('strategies')" id="nav-strategies" class="tab-btn flex-1 py-3 px-5 md:px-4 rounded-xl text-xs font-bold uppercase tracking-wide text-slate-500 hover:text-slate-800">Estratégias</button>
+            <button onclick="nav('refs')" id="nav-refs" class="tab-btn flex-1 py-3 px-5 md:px-4 rounded-xl text-xs font-bold uppercase tracking-wide text-slate-500 hover:text-slate-800">Referências</button>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 md:px-6 py-8 md:py-10 space-y-6 md:space-y-8">
+
+        <!-- SEÇÃO 1: DASHBOARD EXECUTIVO -->
+        <section id="sec-dashboard" class="fade-in space-y-6 md:space-y-8">
+            <!-- Recommendation Hero -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
+                <div class="lg:col-span-8 glass-card rounded-3xl p-6 md:p-8 border-l-[6px] border-sky-600 relative overflow-hidden">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-[10px] md:text-xs font-black text-sky-600 uppercase tracking-widest bg-sky-50 px-3 py-1 rounded-full">Recomendação Final</span>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-bold text-slate-900 mb-4 leading-tight">O Complexo Windsor (Barra) é a escolha estratégica para 2028.</h2>
+                        <p class="text-slate-600 text-base md:text-lg leading-relaxed mb-6">
+                            Para garantir o sucesso de um evento híbrido (Nacional + Mundial) com <strong>4.000 participantes</strong>, a prioridade é combater o absenteísmo do Rio de Janeiro. O modelo de "Campus Vertical" do Windsor oferece imersão total, reduzindo custos logísticos e garantindo salas cheias para a grade científica.
+                        </p>
+                        
+                        <!-- Mini Comparativo (Stack no mobile) -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-6 md:mt-8">
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                <p class="text-[10px] uppercase font-bold text-slate-400 mb-1">Windsor (Vencedor)</p>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-2xl font-bold text-slate-800">92/100</span>
+                                    <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded">Risco Baixo</span>
+                                </div>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 opacity-60">
+                                <p class="text-[10px] uppercase font-bold text-slate-400 mb-1">Riocentro</p>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-2xl font-bold text-slate-800">74/100</span>
+                                    <span class="text-xs font-bold text-amber-600 bg-amber-100 px-2 py-0.5 rounded">Risco Dispersão</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Decor -->
+                    <div class="absolute right-0 top-0 w-64 h-full bg-gradient-to-l from-sky-50 to-transparent pointer-events-none"></div>
+                </div>
+
+                <!-- KPI Side Panel -->
+                <div class="lg:col-span-4 space-y-4">
+                    <div class="bg-slate-900 text-white rounded-3xl p-6 shadow-xl h-full flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold mb-6">Pilares de Decisão</h3>
+                            
+                            <div class="space-y-5">
+                                <div>
+                                    <div class="flex justify-between text-xs font-medium text-slate-400 mb-2">
+                                        <span>Capacidade (4k Pax)</span>
+                                        <span class="text-sky-400">100% Atendido</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-sky-500 w-full h-full rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs font-medium text-slate-400 mb-2">
+                                        <span>Exposição (3.000m²)</span>
+                                        <span class="text-sky-400">Excelente Fluxo</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-sky-500 w-[90%] h-full rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs font-medium text-slate-400 mb-2">
+                                        <span>Mitigação de Risco</span>
+                                        <span class="text-sky-400">Alta Segurança</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                                        <div class="bg-sky-500 w-[95%] h-full rounded-full"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 pt-6 border-t border-slate-700">
+                            <button onclick="openRFP()" class="w-full py-4 bg-white text-slate-900 hover:bg-sky-50 rounded-xl text-xs font-bold uppercase tracking-widest transition shadow-lg flex items-center justify-center gap-2 active:scale-95">
+                                <span>Ver Checklist Técnico</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: MATRIZ DECISÓRIA (MCDA) -->
+        <section id="sec-mcda" class="hidden fade-in space-y-6">
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-6 mb-8 md:mb-10">
+                    <div>
+                        <h3 class="text-xl md:text-2xl font-bold text-slate-900">Matriz de Decisão Multicritério</h3>
+                        <p class="text-slate-500 text-xs md:text-sm mt-1">Comparativo ponderado baseado nos requisitos do Board.</p>
+                    </div>
+                    
+                    <!-- Toggle Switch -->
+                    <div class="bg-slate-100 p-1.5 rounded-xl flex items-center w-full md:w-auto overflow-x-auto">
+                        <button onclick="updateMCDA('sci')" id="btn-sci" class="flex-1 md:flex-none px-4 md:px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wide bg-white text-sky-700 shadow transition-all whitespace-nowrap">Perfil Científico</button>
+                        <button onclick="updateMCDA('biz')" id="btn-biz" class="flex-1 md:flex-none px-4 md:px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wide text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">Perfil Comercial</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+                    <!-- Chart Area -->
+                    <div class="chart-wrapper">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+
+                    <!-- Breakdown Data -->
+                    <div class="space-y-6">
+                        <div class="bg-sky-50 rounded-2xl p-6 border border-sky-100">
+                            <h4 class="text-sm font-bold text-sky-800 mb-2">Interpretação do Cenário</h4>
+                            <p id="mcda-desc" class="text-xs text-sky-700 leading-relaxed">
+                                No cenário <strong>Científico</strong>, o Windsor vence (92pts) devido à integração das salas com o hotel, facilitando o trânsito entre palestras. O Riocentro perde pontos em logística de transporte para participantes.
+                            </p>
+                        </div>
+
+                        <div id="mcda-table" class="space-y-0">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: SIMULADOR DE DENSIDADE -->
+        <section id="sec-density" class="hidden fade-in space-y-6 md:space-y-8">
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-10">
+                <div class="max-w-3xl mb-8 md:mb-10">
+                    <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-2">Simulador de Atmosfera & "Efeito Vazio"</h3>
+                    <p class="text-slate-500 text-xs md:text-sm">
+                        Eventos em pavilhões muito grandes correm o risco de parecerem "fracassados" se a densidade for baixa.
+                        Use o slider para testar diferentes cenários.
+                    </p>
+                </div>
+
+                <!-- Controls -->
+                <div class="bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-200 mb-8 md:mb-10">
+                    <div class="flex justify-between items-end mb-6">
+                        <div>
+                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1">Participantes Simultâneos</p>
+                            <div class="flex items-baseline gap-2">
+                                <span id="pax-val" class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">4.000</span>
+                                <span class="text-lg font-bold text-slate-400">Pax</span>
+                            </div>
+                        </div>
+                        <div class="text-right hidden sm:block">
+                            <span class="text-[10px] bg-slate-200 text-slate-600 px-3 py-1 rounded-full font-bold uppercase">Meta: 4.000</span>
+                        </div>
+                    </div>
+                    <input type="range" min="1500" max="6000" step="100" value="4000" oninput="updateDensity(this.value)">
+                    <div class="flex justify-between text-[10px] text-slate-400 font-bold uppercase mt-3">
+                        <span>Pessimista (1.5k)</span>
+                        <span>Otimista (6k)</span>
+                    </div>
+                </div>
+
+                <!-- Visualizers -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                    
+                    <!-- Card Windsor -->
+                    <div id="card-windsor" class="border-2 rounded-3xl p-6 md:p-8 transition-all duration-300">
+                        <div class="flex justify-between items-center mb-6">
+                            <h4 class="text-base md:text-lg font-bold text-slate-900">Complexo Windsor</h4>
+                            <span id="badge-w" class="text-[10px] font-black uppercase bg-green-100 text-green-700 px-3 py-1 rounded-full">Ideal</span>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1 text-slate-500">
+                                    <span>Densidade (m²/pessoa)</span>
+                                    <span id="val-w" class="font-bold text-slate-900">1.1</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                    <div id="bar-w" class="metric-bar h-full bg-green-500" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <p id="msg-w" class="text-xs text-slate-500 italic leading-relaxed">
+                                "Energia vibrante. Corredores movimentados. Excelente percepção de sucesso comercial."
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Card Riocentro -->
+                    <div id="card-riocentro" class="border-2 rounded-3xl p-6 md:p-8 transition-all duration-300 border-slate-100">
+                        <div class="flex justify-between items-center mb-6">
+                            <h4 class="text-base md:text-lg font-bold text-slate-900">Riocentro (Pav. 5)</h4>
+                            <span id="badge-r" class="text-[10px] font-black uppercase bg-amber-100 text-amber-700 px-3 py-1 rounded-full">Disperso</span>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1 text-slate-500">
+                                    <span>Densidade (m²/pessoa)</span>
+                                    <span id="val-r" class="font-bold text-slate-900">3.0</span>
+                                </div>
+                                <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+                                    <div id="bar-r" class="metric-bar h-full bg-amber-500" style="width: 30%"></div>
+                                </div>
+                            </div>
+                            <p id="msg-r" class="text-xs text-slate-500 italic leading-relaxed">
+                                "Espaço muito amplo. Risco de parecer vazio mesmo com bom público. Exige cenografia cara."
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: ESTRATÉGIAS & RISCOS -->
+        <section id="sec-strategies" class="hidden fade-in space-y-6 md:space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+                
+                <!-- Risk Mitigation -->
+                <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200">
+                    <h3 class="text-xl font-bold text-slate-900 mb-6">Plano de Mitigação de Riscos</h3>
+                    <div class="space-y-4">
+                        <details class="group bg-slate-50 rounded-2xl border border-slate-100 open">
+                            <summary class="flex justify-between items-center p-5 cursor-pointer list-none font-bold text-slate-800 text-sm">
+                                <span>Fator "Rio/Praia" (Absenteísmo)</span>
+                                <span class="text-sky-500 group-open:rotate-180 transition">▼</span>
+                            </summary>
+                            <div class="px-5 pb-5 pt-0 text-xs text-slate-600 leading-relaxed">
+                                <strong>Estratégia:</strong> Concentração de keynotes internacionais entre 11h e 14h. Almoço servido EXCLUSIVAMENTE dentro da área de exposição para evitar saídas do complexo.
+                            </div>
+                        </details>
+                        
+                        <details class="group bg-slate-50 rounded-2xl border border-slate-100">
+                            <summary class="flex justify-between items-center p-5 cursor-pointer list-none font-bold text-slate-800 text-sm">
+                                <span>Logística de Transporte</span>
+                                <span class="text-sky-500 group-open:rotate-180 transition">▼</span>
+                            </summary>
+                            <div class="px-5 pb-5 pt-0 text-xs text-slate-600 leading-relaxed">
+                                <strong>Estratégia:</strong> Bloqueio de 600 quartos no Grand Windsor e hotéis adjacentes. Elimina a necessidade de shuttle para 40% do público VIP e palestrantes.
+                            </div>
+                        </details>
+
+                        <details class="group bg-slate-50 rounded-2xl border border-slate-100">
+                            <summary class="flex justify-between items-center p-5 cursor-pointer list-none font-bold text-slate-800 text-sm">
+                                <span>Acústica em Salas Paralelas</span>
+                                <span class="text-sky-500 group-open:rotate-180 transition">▼</span>
+                            </summary>
+                            <div class="px-5 pb-5 pt-0 text-xs text-slate-600 leading-relaxed">
+                                <strong>Estratégia:</strong> O Windsor possui paredes modulares nativas de alto isolamento, superiores ao "shell scheme" (drywall provisório) necessário no Riocentro.
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- Call to Action / Tools -->
+                <div class="space-y-6">
+                    <div class="bg-slate-900 text-white rounded-3xl p-6 md:p-8 shadow-xl">
+                        <h3 class="text-lg font-bold mb-4">Próximos Passos</h3>
+                        <p class="text-sm text-slate-300 mb-6">
+                            A equipe técnica da ABORL deve validar in loco os pontos críticos levantados nesta auditoria.
+                        </p>
+                        <button onclick="openRFP()" class="w-full py-4 bg-sky-500 hover:bg-sky-400 rounded-xl font-bold text-xs uppercase tracking-widest transition shadow-lg mb-3 active:scale-95">
+                            Abrir Checklist de Visita (RFP)
+                        </button>
+                        <p class="text-[10px] text-center text-slate-500">Ferramenta interativa para uso em campo.</p>
+                    </div>
+
+                    <div class="bg-sky-50 rounded-3xl p-6 md:p-8 border border-sky-100">
+                        <h4 class="font-bold text-sky-800 text-sm mb-2">Insight OTOSIG</h4>
+                        <p class="text-xs text-sky-700 leading-relaxed">
+                            "Em congressos mundiais, a **conveniência** supera o espaço físico. O participante internacional prefere elevador a ônibus."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 5: REFERÊNCIAS & AUDITORIA -->
+        <section id="sec-refs" class="hidden fade-in space-y-6 md:space-y-8">
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-8">
+                <h3 class="text-xl md:text-2xl font-bold text-slate-900 mb-6">Fontes de Dados & Auditoria</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    
+                    <div class="p-5 border border-slate-100 rounded-2xl hover:border-sky-200 transition bg-slate-50">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Dados de Venue</p>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">Windsor Convention Specs 2024</h5>
+                        <p class="text-xs text-slate-500">Plantas baixas oficiais e laudos acústicos do Complexo Barra.</p>
+                    </div>
+
+                    <div class="p-5 border border-slate-100 rounded-2xl hover:border-sky-200 transition bg-slate-50">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Dados de Venue</p>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">Riocentro GL Events Factsheet</h5>
+                        <p class="text-xs text-slate-500">Capacidades técnicas do Pavilhão 5 e Centro de Convenções.</p>
+                    </div>
+
+                    <div class="p-5 border border-slate-100 rounded-2xl hover:border-sky-200 transition bg-slate-50">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Benchmark</p>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">ICCA Statistics Report 2023</h5>
+                        <p class="text-xs text-slate-500">Médias globais de densidade para congressos médicos (1.5 m²/pax).</p>
+                    </div>
+
+                    <div class="p-5 border border-slate-100 rounded-2xl hover:border-sky-200 transition bg-slate-50">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Histórico</p>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">Relatórios ABORL 2021-2024</h5>
+                        <p class="text-xs text-slate-500">Dados internos de fluxo de participantes e ocupação de salas.</p>
+                    </div>
+
+                    <div class="p-5 border border-slate-100 rounded-2xl hover:border-sky-200 transition bg-slate-50">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Clima</p>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">INMET Climatologia RJ</h5>
+                        <p class="text-xs text-slate-500">Dados pluviométricos e de temperatura para Novembro no Rio de Janeiro.</p>
+                    </div>
+
+                    <div class="p-5 border border-slate-100 rounded-2xl hover:border-sky-200 transition bg-slate-50">
+                        <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Hotelaria</p>
+                        <h5 class="text-sm font-bold text-slate-800 mb-1">ABIH-RJ Inventário Barra</h5>
+                        <p class="text-xs text-slate-500">Disponibilidade de leitos 4 e 5 estrelas no raio de 2km dos venues.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL: CHECKLIST TÉCNICO (RFP) -->
+    <div id="modal-rfp" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 md:p-8 shadow-2xl fade-in relative overflow-hidden m-4">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <span class="text-[10px] font-bold text-sky-600 uppercase tracking-widest">Guia de Visita</span>
+                    <h4 class="text-xl md:text-2xl font-bold text-slate-900">Checklist RFP Técnico</h4>
+                </div>
+                <button onclick="closeRFP()" class="w-8 h-8 flex items-center justify-center bg-slate-100 rounded-full hover:bg-slate-200 active:bg-slate-300">✕</button>
+            </div>
+            
+            <div class="space-y-3 max-h-[50vh] overflow-y-auto pr-2">
+                <div class="flex items-start gap-4 p-4 rounded-2xl border border-slate-100 hover:border-sky-200 transition">
+                    <input type="checkbox" class="mt-1 w-5 h-5 accent-sky-600 rounded">
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">Isolamento Acústico (STC 50+)</p>
+                        <p class="text-xs text-slate-500">Verificar vazamento de som entre divisórias modulares.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-2xl border border-slate-100 hover:border-sky-200 transition">
+                    <input type="checkbox" class="mt-1 w-5 h-5 accent-sky-600 rounded">
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">Conectividade (Wi-Fi 6)</p>
+                        <p class="text-xs text-slate-500">Garantia de 2.5 devices por pax (10k conexões simultâneas).</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-2xl border border-slate-100 hover:border-sky-200 transition">
+                    <input type="checkbox" class="mt-1 w-5 h-5 accent-sky-600 rounded">
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">Docas de Carga</p>
+                        <p class="text-xs text-slate-500">Acesso para carretas de equipamentos médicos pesados.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-2xl border border-slate-100 hover:border-sky-200 transition">
+                    <input type="checkbox" class="mt-1 w-5 h-5 accent-sky-600 rounded">
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">Climatização Redundante</p>
+                        <p class="text-xs text-slate-500">Capacidade de resfriamento total mesmo com lotação máxima.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-2xl border border-slate-100 hover:border-sky-200 transition">
+                    <input type="checkbox" class="mt-1 w-5 h-5 accent-sky-600 rounded">
+                    <div>
+                        <p class="text-sm font-bold text-slate-800">Fluxo de A&B</p>
+                        <p class="text-xs text-slate-500">Espaço para buffet sem cruzar filas de credenciamento.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="closeRFP()" class="w-full mt-6 py-3 bg-slate-900 text-white font-bold rounded-xl text-xs uppercase tracking-widest active:scale-95 transition">Fechar Guia</button>
+        </div>
+    </div>
+
+    <!-- Footer Discreto -->
+    <footer class="mt-auto border-t border-slate-200 bg-white py-8 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="text-center md:text-left">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Consultoria Estratégica</p>
+                <p class="text-xs font-semibold text-slate-600">Dr. Dario Hart & Dra. Larissa Salomão</p>
+            </div>
+            <div class="text-center md:text-right">
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Emissão: Fev 2026</p>
+                <div class="flex items-center gap-1 justify-center md:justify-end opacity-60 grayscale hover:grayscale-0 transition">
+                    <span class="text-[10px] font-bold">Powered by OTOSIG</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LÓGICA DA APLICAÇÃO -->
+    <script>
+        // State
+        let radarChart = null;
+        let activeTab = 'dashboard';
+        let currentScenario = 'sci';
+
+        // Data Models
+        const dataMCDA = {
+            sci: {
+                labels: ['Infra Acústica', 'Logística Hotel', 'Custo Operacional', 'Experiência Pax', 'Segurança'],
+                windsor: [95, 95, 80, 90, 90],
+                riocentro: [75, 60, 85, 70, 80],
+                desc: "No cenário <strong>Científico</strong>, o Windsor domina pela facilidade de acesso às salas (sem transporte) e qualidade acústica nativa."
+            },
+            biz: {
+                labels: ['Área Exposição', 'Acesso Carga', 'Retorno ROI', 'Fluxo Visitante', 'Flexibilidade'],
+                windsor: [85, 80, 90, 95, 85],
+                riocentro: [95, 95, 85, 75, 90],
+                desc: "No cenário <strong>Comercial</strong>, o Riocentro ganha em brutalidade de espaço e carga, mas o Windsor vence no fluxo qualificado (ROI)."
+            }
+        };
+
+        // Navigation
+        function nav(tabId) {
+            // Hide all sections
+            ['dashboard', 'mcda', 'density', 'strategies', 'refs'].forEach(id => {
+                document.getElementById('sec-' + id).classList.add('hidden');
+                const btn = document.getElementById('nav-' + id);
+                btn.classList.remove('tab-active');
+                btn.classList.add('text-slate-500');
+            });
+
+            // Show active
+            document.getElementById('sec-' + tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('nav-' + tabId);
+            activeBtn.classList.add('tab-active');
+            activeBtn.classList.remove('text-slate-500');
+
+            // Init Chart if MCDA
+            if(tabId === 'mcda') {
+                if(!radarChart) initRadar();
+                updateMCDA(currentScenario);
+            }
+        }
+
+        // Radar Chart Logic
+        function initRadar() {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: dataMCDA.sci.labels,
+                    datasets: [
+                        {
+                            label: 'Windsor (Barra)',
+                            data: dataMCDA.sci.windsor,
+                            backgroundColor: 'rgba(2, 132, 199, 0.2)', // Sky 600
+                            borderColor: '#0284c7',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#0284c7'
+                        },
+                        {
+                            label: 'Riocentro',
+                            data: dataMCDA.sci.riocentro,
+                            backgroundColor: 'rgba(148, 163, 184, 0.2)', // Slate 400
+                            borderColor: '#94a3b8',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#94a3b8'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#e2e8f0' },
+                            pointLabels: {
+                                font: { family: 'Plus Jakarta Sans', size: 10, weight: '600' },
+                                color: '#475569'
+                            },
+                            suggestedMin: 50,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { font: { family: 'Plus Jakarta Sans' } } }
+                    }
+                }
+            });
+        }
+
+        function updateMCDA(scenario) {
+            currentScenario = scenario;
+            const data = dataMCDA[scenario];
+            
+            // Update Buttons
+            document.getElementById('btn-sci').className = scenario === 'sci' ? 
+                "flex-1 md:flex-none px-4 md:px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wide bg-white text-sky-700 shadow transition-all whitespace-nowrap" : 
+                "flex-1 md:flex-none px-4 md:px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wide text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap";
+            
+            document.getElementById('btn-biz').className = scenario === 'biz' ? 
+                "flex-1 md:flex-none px-4 md:px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wide bg-white text-sky-700 shadow transition-all whitespace-nowrap" : 
+                "flex-1 md:flex-none px-4 md:px-5 py-2 rounded-lg text-xs font-bold uppercase tracking-wide text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap";
+
+            // Update Text
+            document.getElementById('mcda-desc').innerHTML = data.desc;
+
+            // Update Chart
+            radarChart.data.labels = data.labels;
+            radarChart.data.datasets[0].data = data.windsor;
+            radarChart.data.datasets[1].data = data.riocentro;
+            radarChart.update();
+
+            // Update Table
+            const table = document.getElementById('mcda-table');
+            table.innerHTML = '';
+            data.labels.forEach((label, i) => {
+                table.innerHTML += `
+                    <div class="flex justify-between items-center py-3 border-b border-slate-100 last:border-0 hover:bg-slate-50 px-2 rounded transition">
+                        <span class="text-xs font-bold text-slate-600">${label}</span>
+                        <div class="flex gap-4 md:gap-6">
+                            <span class="text-sm font-bold text-sky-600 w-8 text-center">${data.windsor[i]}</span>
+                            <span class="text-sm font-bold text-slate-400 w-8 text-center">${data.riocentro[i]}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Density Simulator
+        function updateDensity(val) {
+            // Update Text
+            document.getElementById('pax-val').innerText = parseInt(val).toLocaleString('pt-BR');
+            
+            const areaWindsor = 4500;
+            const areaRiocentro = 12000;
+
+            const densWindsor = (areaWindsor / val).toFixed(1);
+            const densRiocentro = (areaRiocentro / val).toFixed(1);
+
+            document.getElementById('val-w').innerText = densWindsor;
+            document.getElementById('val-r').innerText = densRiocentro;
+
+            // Update Bars (Width %)
+            // Logic: 1.5 is ideal. 
+            document.getElementById('bar-w').style.width = Math.min((val/4500)*100, 100) + '%';
+            document.getElementById('bar-r').style.width = Math.min((val/12000)*100, 100) + '%';
+
+            // Visual Feedback Logic
+            const cardW = document.getElementById('card-windsor');
+            const badgeW = document.getElementById('badge-w');
+            const msgW = document.getElementById('msg-w');
+
+            if(densWindsor < 1.0) {
+                badgeW.innerText = "Lotado"; badgeW.className = "text-[10px] font-black uppercase bg-amber-100 text-amber-700 px-3 py-1 rounded-full";
+                cardW.className = "border-2 rounded-3xl p-6 md:p-8 transition-all duration-300 border-amber-200 bg-amber-50/30";
+                msgW.innerText = "Atenção: Fluxo intenso. Necessário ampliar áreas de lounge.";
+            } else if (densWindsor <= 2.0) {
+                badgeW.innerText = "Ideal"; badgeW.className = "text-[10px] font-black uppercase bg-green-100 text-green-700 px-3 py-1 rounded-full";
+                cardW.className = "border-2 rounded-3xl p-6 md:p-8 transition-all duration-300 border-green-200 bg-white";
+                msgW.innerText = "Perfeito. Alta energia, corredores cheios, expositores satisfeitos.";
+            } else {
+                badgeW.innerText = "Confortável"; badgeW.className = "text-[10px] font-black uppercase bg-blue-100 text-blue-700 px-3 py-1 rounded-full";
+                cardW.className = "border-2 rounded-3xl p-6 md:p-8 transition-all duration-300 border-slate-200 bg-white";
+                msgW.innerText = "Espaço sobrando. Boa circulação.";
+            }
+
+            const cardR = document.getElementById('card-riocentro');
+            const badgeR = document.getElementById('badge-r');
+            const msgR = document.getElementById('msg-r');
+
+            if(densRiocentro > 4.5) {
+                badgeR.innerText = "Crítico (Vazio)"; badgeR.className = "text-[10px] font-black uppercase bg-red-100 text-red-700 px-3 py-1 rounded-full";
+                cardR.className = "border-2 rounded-3xl p-6 md:p-8 transition-all duration-300 border-red-200 bg-red-50/30";
+                msgR.innerText = "RISCO ALTO: Sensação de evento fracassado. Exige fechamento de áreas com cortinas.";
+            } else if (densRiocentro > 3.0) {
+                badgeR.innerText = "Disperso"; badgeR.className = "text-[10px] font-black uppercase bg-amber-100 text-amber-700 px-3 py-1 rounded-full";
+                cardR.className = "border-2 rounded-3xl p-6 md:p-8 transition-all duration-300 border-amber-200 bg-white";
+                msgR.innerText = "Ambiente frio. O participante sente que 'perdeu' o evento.";
+            } else {
+                badgeR.innerText = "Aceitável"; badgeR.className = "text-[10px] font-black uppercase bg-blue-100 text-blue-700 px-3 py-1 rounded-full";
+                cardR.className = "border-2 rounded-3xl p-6 md:p-8 transition-all duration-300 border-slate-200 bg-white";
+                msgR.innerText = "Densidade operacional aceitável para pavilhões.";
+            }
+        }
+
+        // RFP Modal
+        function openRFP() { document.getElementById('modal-rfp').classList.remove('hidden'); }
+        function closeRFP() { document.getElementById('modal-rfp').classList.add('hidden'); }
+
+        // Initialize
+        updateDensity(4000); // Start at target
+        
+    </script>
+</body>
+</html>
