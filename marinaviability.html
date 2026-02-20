@@ -62,7 +62,6 @@
 
     <!-- Header -->
     <header class="bg-slate-900 text-white pt-8 pb-20 px-5 relative">
-        <!-- Botão Voltar -->
         <a href="index.html" class="absolute top-6 left-6 z-20 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-slate-400 hover:text-white transition bg-white/10 px-3 py-1.5 rounded-full border border-white/10">
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             Voltar ao Dashboard
@@ -74,11 +73,11 @@
                     <span class="px-2 py-1 bg-sky-500/20 text-sky-400 text-[10px] font-bold uppercase tracking-widest rounded-md border border-sky-500/20">Deep Research Analysis</span>
                     <span class="text-[10px] text-slate-400 uppercase tracking-widest">Marina da Glória | Novembro 2028</span>
                 </div>
-                <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight mb-2">Dossiê Técnico de Engenharia</h1>
-                <p class="text-sm md:text-lg text-slate-300 font-medium">Viabilidade de Infraestrutura Temporária para 4.500 Pax</p>
+                <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight mb-2">Dossiê de Engenharia & Overlay</h1>
+                <p class="text-sm md:text-lg text-slate-300 font-medium">Estudo de Viabilidade Técnica para o Congresso 2028</p>
             </div>
             <div class="text-right">
-                <p class="text-[9px] text-slate-500 uppercase font-bold mb-1">Custo Overlay Full (15k m²)</p>
+                <p class="text-[9px] text-slate-500 uppercase font-bold mb-1">Custo Overlay Full (15.224 m²)</p>
                 <span class="text-2xl font-black text-sky-400">R$ 42.710.000</span>
             </div>
         </div>
@@ -91,7 +90,7 @@
             <button onclick="nav('overview')" id="nav-overview" class="tab-btn py-3 px-5 rounded-xl text-[10px] uppercase font-bold tracking-wide tab-active">Parecer Executivo</button>
             <button onclick="nav('tech')" id="nav-tech" class="tab-btn py-3 px-5 rounded-xl text-[10px] uppercase font-bold tracking-wide text-slate-500">Tecnologias de Mitigação</button>
             <button onclick="nav('simulator')" id="nav-simulator" class="tab-btn py-3 px-5 rounded-xl text-[10px] uppercase font-bold tracking-wide text-slate-500">Simulador de Custos</button>
-            <button onclick="nav('sponsorship')" id="nav-sponsorship" class="tab-btn py-3 px-5 rounded-xl text-[10px] uppercase font-bold tracking-wide text-slate-500">Redução de Custo/Pax</button>
+            <button onclick="nav('sponsorship')" id="nav-sponsorship" class="tab-btn py-3 px-5 rounded-xl text-[10px] uppercase font-bold tracking-wide text-slate-500">Modelo de Receita</button>
             <button onclick="nav('refs')" id="nav-refs" class="tab-btn py-3 px-5 rounded-xl text-[10px] uppercase font-bold tracking-wide text-slate-500">Referências Auditáveis</button>
         </div>
     </nav>
@@ -103,122 +102,228 @@
         <section id="sec-overview" class="fade-in space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 <div class="lg:col-span-8 glass-card rounded-3xl p-6 md:p-8 border-l-[6px] border-sky-500">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Análise Crítica: Overlay vs. Estrutura Fixa</h2>
+                    <h2 class="text-2xl font-bold text-slate-900 mb-4">Análise Crítica: Engenharia de Overlay</h2>
                     <p class="text-slate-600 text-sm leading-relaxed mb-6">
-                        O desafio da Marina da Glória não é espacial (26.218 m² disponíveis), mas sim **qualitativo**. Para um congresso médico *flagship*, a infraestrutura temporária precisa emular o conforto de um prédio fixo. 
-                        A necessidade de **15.224 m² de estruturas adicionais** representa o maior gargalo financeiro, principalmente pelo custo de climatizar e isolar acusticamente uma área aberta sob a pressão sonora de decolagens do Aeroporto Santos Dumont (SDU).
+                        O estudo de viabilidade técnico-engenharia para a Marina da Glória em 2028 indica que o local é capaz de absorver a demanda de 4.500 delegados em termos de área bruta (26.218 m²), mas apresenta um gargalo crítico em infraestrutura coberta. 
+                        Diferente de hotéis integrados, o custo marginal aqui é dominado pela criação de um ambiente controlado capaz de mitigar o **ruído aeronáutico do Aeroporto Santos Dumont (SDU)** e as **prensas térmicas de Novembro**.
                     </p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <p class="text-[9px] font-bold text-slate-400 uppercase">Fator de Inflação</p>
+                            <p class="text-lg font-bold text-slate-800">11,68% <span class="text-[9px] font-normal">(Base 2026)</span></p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <p class="text-[9px] font-bold text-slate-400 uppercase">Carga HVAC</p>
+                            <p class="text-lg font-bold text-slate-800">1.815 TR</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <p class="text-[9px] font-bold text-slate-400 uppercase">Alvo Acústico</p>
+                            <p class="text-lg font-bold text-slate-800">NC 25-30</p>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
                             <p class="text-[9px] font-bold text-slate-400 uppercase">Capacidade Elétrica</p>
-                            <p class="text-lg font-bold text-slate-800">~3,7 MVA <span class="text-[9px] font-normal">(Req.)</span></p>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            <p class="text-[9px] font-bold text-slate-400 uppercase">Atenuação Acústica</p>
-                            <p class="text-lg font-bold text-slate-800">45-60 dB <span class="text-[9px] font-normal">(Target)</span></p>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            <p class="text-[9px] font-bold text-slate-400 uppercase">Inflação Acumulada</p>
-                            <p class="text-lg font-bold text-slate-800">11,68% <span class="text-[9px] font-normal">(26-28)</span></p>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            <p class="text-[9px] font-bold text-slate-400 uppercase">Diesel Requerido</p>
-                            <p class="text-lg font-bold text-slate-800">30.363 L</p>
+                            <p class="text-lg font-bold text-slate-800">3,7 MVA</p>
                         </div>
                     </div>
                 </div>
                 <div class="lg:col-span-4 space-y-4">
-                    <div class="bg-slate-900 rounded-3xl p-6 text-white h-full border border-slate-800">
-                        <h3 class="text-xs font-bold uppercase tracking-widest text-sky-400 mb-4">Empresas Recomendadas (Brasil)</h3>
-                        <div class="space-y-4">
-                            <div>
-                                <p class="text-[10px] font-black uppercase text-slate-500 mb-1">Estruturas & Tendas</p>
-                                <p class="text-xs font-bold">1. Macro Tendas</p>
-                                <p class="text-xs font-bold">2. Feeling Structures</p>
-                                <p class="text-xs font-bold">3. LPR Estruturas</p>
+                    <div class="bg-slate-900 rounded-3xl p-6 text-white h-full border border-slate-800 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xs font-bold uppercase tracking-widest text-sky-400 mb-6">Empresas Capacitadas (Brasil)</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-[9px] font-black uppercase text-slate-500 mb-1">Overlay & Acústica Integrada</p>
+                                    <p class="text-xs font-bold">1. LPR Estruturas</p>
+                                    <p class="text-xs font-bold">2. Macro Tendas</p>
+                                    <p class="text-xs font-bold">3. Feeling Structures</p>
+                                </div>
+                                <div>
+                                    <p class="text-[9px] font-black uppercase text-slate-500 mb-1">Climatização & Energia</p>
+                                    <p class="text-xs font-bold">1. Aggreko Brasil</p>
+                                    <p class="text-xs font-bold">2. Trane Rental</p>
+                                    <p class="text-xs font-bold">3. A Geradora</p>
+                                </div>
                             </div>
-                            <div>
-                                <p class="text-[10px] font-black uppercase text-slate-500 mb-1">Climatização & Energia</p>
-                                <p class="text-xs font-bold">1. Aggreko Brasil</p>
-                                <p class="text-xs font-bold">2. Trane Rental</p>
-                                <p class="text-xs font-bold">3. A Geradora</p>
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-black uppercase text-slate-500 mb-1">Audiovisual & IT</p>
-                                <p class="text-xs font-bold">1. Maxi Audio</p>
-                                <p class="text-xs font-bold">2. Hoffmann</p>
-                                <p class="text-xs font-bold">3. Apple Produções</p>
-                            </div>
+                        </div>
+                        <div class="pt-6 border-t border-slate-800">
+                            <p class="text-[9px] text-slate-500 italic">Nota: Empresas selecionadas com base em benchmarks de G20 e Rio 2016.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- TECNOLOGIAS & MITIGAÇÃO -->
-        <section id="sec-tech" class="hidden fade-in space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Ruído Aeronáutico -->
-                <div class="glass-card rounded-3xl p-6 border border-slate-100">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="p-2 bg-red-100 text-red-600 rounded-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg></div>
-                        <h3 class="text-lg font-bold">Estratégia Acústica (Box-in-Box)</h3>
+        <!-- TECNOLOGIAS DE MITIGAÇÃO -->
+        <section id="sec-tech" class="hidden fade-in space-y-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- 1. Engenharia de Estruturas -->
+                <div class="glass-card rounded-3xl p-6 border-t-4 border-sky-500 flex flex-col h-full">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="p-2.5 bg-sky-100 text-sky-600 rounded-xl">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-extrabold text-slate-900 tracking-tight leading-tight">Estruturas TFS & Clear Span</h3>
+                            <p class="text-[9px] font-bold text-sky-500 uppercase tracking-widest">Infraestrutura Base</p>
+                        </div>
                     </div>
-                    <p class="text-xs text-slate-600 leading-relaxed mb-4">
-                        O ruído do SDU atinge picos de 95dB. Para manter NC 25-30 internamente, a solução tecnológica é o isolamento de massa variável.
-                    </p>
-                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-[11px] space-y-2">
-                        <p><strong>Tecnologia:</strong> Divisórias duplas com painéis de lã de rocha (70kg/m³) + membranas de barreira acústica de alta densidade.</p>
-                        <p><strong>Custo:</strong> R$ 6.7M - 13.4M (2026) dependendo do nível de vedação das juntas.</p>
-                        <p><strong>Fornecedor:</strong> Acústica & Design / Estruturas Customizadas.</p>
+                    <div class="space-y-4 flex-grow text-[11px] leading-relaxed">
+                        <p class="text-slate-600">Cascas de alumínio anodizado de alta resistência para vãos livres de até 40m, permitindo visibilidade total em plenárias.</p>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400 font-bold uppercase text-[9px]">Empresas:</span>
+                                <span class="text-slate-800 font-black">LPR, Feeling, Macro Tendas</span>
+                            </div>
+                            <div class="flex justify-between border-t border-slate-200 pt-2">
+                                <span class="text-slate-400 font-bold uppercase text-[9px]">Resistência:</span>
+                                <span class="text-slate-800 font-black text-sky-600">Ventos 120km/h</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 text-slate-500">
+                            <li class="flex gap-2">
+                                <svg class="w-3 h-3 text-sky-500 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L9 10.586l3.293-3.293a1 1 0 011.414 1.414z"></path></svg>
+                                Pé-direito útil de 8m para rigging complexo.
+                            </li>
+                            <li class="flex gap-2">
+                                <svg class="w-3 h-3 text-sky-500 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L9 10.586l3.293-3.293a1 1 0 011.414 1.414z"></path></svg>
+                                Piso técnico em metalon (500kg/m²).
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
-                <!-- Clima & HVAC -->
-                <div class="glass-card rounded-3xl p-6 border border-slate-100">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="p-2 bg-orange-100 text-orange-600 rounded-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg></div>
-                        <h3 class="text-lg font-bold">Climatização Industrial</h3>
+                <!-- 2. Acústica de Alta Performance -->
+                <div class="glass-card rounded-3xl p-6 border-t-4 border-slate-800 flex flex-col h-full">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="p-2.5 bg-slate-100 text-slate-800 rounded-xl">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-extrabold text-slate-900 tracking-tight leading-tight">Mitigação Acústica Híbrida</h3>
+                            <p class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Isolamento SDU + Inter-Salas</p>
+                        </div>
                     </div>
-                    <p class="text-xs text-slate-600 leading-relaxed mb-4">
-                        Demanda de 1.815 TR em Novembro. A rede elétrica local não suporta a partida dos compressores (2.5 MW nominais).
-                    </p>
-                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-[11px] space-y-2">
-                        <p><strong>Tecnologia:</strong> Chillers a ar com compressores parafuso + AHU (Air Handling Units) de alta pressão e dutos de tecido para distribuição silenciosa.</p>
-                        <p><strong>Custo:</strong> R$ 12.000 / TR (Período de 5-7 dias de locação completa).</p>
-                        <p><strong>Fornecedor:</strong> Trane Rental / Aggreko.</p>
+                    <div class="space-y-4 flex-grow text-[11px] leading-relaxed">
+                        <p class="text-slate-600">Engenharia de isolamento duplo para barrar ruído externo aeronáutico (>85dB) e eliminar o <i>cross-talk</i> entre as 12 salas paralelas e a Expo.</p>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400 font-bold uppercase text-[9px]">Homologação:</span>
+                                <span class="text-slate-800 font-black">LPR (Box-in-Box), Feeling</span>
+                            </div>
+                            <div class="flex justify-between border-t border-slate-200 pt-2">
+                                <span class="text-slate-400 font-bold uppercase text-[9px]">Alvo Crítico:</span>
+                                <span class="text-slate-800 font-black text-sky-600">NC 25-30 / STC 50+</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 text-slate-500">
+                            <li class="flex gap-2">
+                                <svg class="w-3 h-3 text-slate-700 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L9 10.586l3.293-3.293a1 1 0 011.414 1.414z"></path></svg>
+                                <b>SDU Mit:</b> Membranas de massa pesada e lã de rocha 50mm no teto.
+                            </li>
+                            <li class="flex gap-2">
+                                <svg class="w-3 h-3 text-slate-700 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L9 10.586l3.293-3.293a1 1 0 011.414 1.414z"></path></svg>
+                                <b>Cross-Talk:</b> Painéis acústicos modulares e selagem hermética inter-salas.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3. Climatização e Energia -->
+                <div class="glass-card rounded-3xl p-6 border-t-4 border-orange-400 flex flex-col h-full">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="p-2.5 bg-orange-50 text-orange-600 rounded-xl">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-extrabold text-slate-900 tracking-tight leading-tight">HVAC & Energia Crítica</h3>
+                            <p class="text-[9px] font-bold text-orange-500 uppercase tracking-widest">Estabilidade Térmica</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4 flex-grow text-[11px] leading-relaxed">
+                        <p class="text-slate-600">Sistema centralizado de resfriamento com redundância N+1, essencial para manter a temperatura em 22°C sob sol de novembro no RJ.</p>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400 font-bold uppercase text-[9px]">Empresas:</span>
+                                <span class="text-slate-800 font-black">Aggreko, Trane, A Geradora</span>
+                            </div>
+                            <div class="flex justify-between border-t border-slate-200 pt-2">
+                                <span class="text-slate-400 font-bold uppercase text-[9px]">Capacidade:</span>
+                                <span class="text-slate-800 font-black text-sky-600">1.815 TR / 3.7 MVA</span>
+                            </div>
+                        </div>
+                        <ul class="space-y-2 text-slate-500">
+                            <li class="flex gap-2">
+                                <svg class="w-3 h-3 text-orange-500 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L9 10.586l3.293-3.293a1 1 0 011.414 1.414z"></path></svg>
+                                Chillers portáteis com filtragem hospitalar.
+                            </li>
+                            <li class="flex gap-2">
+                                <svg class="w-3 h-3 text-orange-500 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L9 10.586l3.293-3.293a1 1 0 011.414 1.414z"></path></svg>
+                                Geradores silenciados off-grid (redundância total).
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard de Performance Técnica -->
+            <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900 tracking-tight">Performance de Mitigação Integrada</h3>
+                        <p class="text-xs text-slate-500 mt-1 italic">Comparativo: Condição Natural Marina vs. Overlay Técnico Proposto</p>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-slate-200"></span>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase">Status Quo</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-sky-500"></span>
+                            <span class="text-[9px] font-bold text-sky-600 uppercase">Alvo 2028</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="h-[320px] w-full">
+                    <canvas id="techChart"></canvas>
+                </div>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                        <h4 class="text-[10px] font-bold text-slate-400 uppercase mb-2">Conclusão sobre Ruído (SDU + Inter-Salas)</h4>
+                        <p class="text-[11px] text-slate-600">A mitigação exige atenuação instantânea de até 60dB. Sem o sistema <i>Box-in-Box</i> nas 12 salas, palestras médicas simultâneas seriam inviabilizadas por interferência cruzada e ruído de turbinas.</p>
+                    </div>
+                    <div class="p-4 bg-sky-50 rounded-2xl border border-sky-100">
+                        <h4 class="text-[10px] font-bold text-sky-600 uppercase mb-2">Homologação de Fornecedores</h4>
+                        <p class="text-[11px] text-slate-600">Empresas como <b>LPR</b> e <b>Aggreko</b> já possuem <i>case</i> em eventos G20 e Olimpíadas no Rio, mitigando o risco de execução em ambiente marinho/costeiro.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- SIMULADOR INTERATIVO (AJUSTADO RANGE 8K-15K) -->
+        <!-- SIMULADOR INTERATIVO -->
         <section id="sec-simulator" class="hidden fade-in space-y-6">
             <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm">
                 <div class="mb-8">
-                    <h3 class="text-xl font-bold text-slate-900">Simulador de Custos de Overlay (2028)</h3>
-                    <p class="text-xs text-slate-500 mt-1">Ajuste a área de construção temporária para ver o impacto no CAPEX de infraestrutura.</p>
+                    <h3 class="text-xl font-bold text-slate-900">Simulador de Custos de Overlay (Marina 2028)</h3>
+                    <p class="text-xs text-slate-500 mt-1">Estimativas baseadas em 15.224 m² de estruturas adicionais climatizadas e isoladas.</p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     <div class="space-y-10 bg-slate-50 p-6 rounded-3xl border border-slate-100">
-                        <!-- Area Slider -->
                         <div>
                             <div class="flex justify-between mb-4">
                                 <label class="text-xs font-bold uppercase text-slate-400">Área de Overlay Requerida (m²)</label>
                                 <span id="val-area" class="text-xl font-black text-sky-600">15.000</span>
                             </div>
                             <input type="range" min="8000" max="15000" step="500" value="15000" id="sim-area" oninput="runSim()">
-                            <div class="flex justify-between text-[10px] font-bold text-slate-400 mt-2">
+                            <div class="flex justify-between text-[10px] font-bold text-slate-400 mt-2 uppercase">
                                 <span>8.000 m² (Mínimo Breakouts)</span>
-                                <span>15.000 m² (Full Congress)</span>
+                                <span>15.000 m² (Full Overlay)</span>
                             </div>
                         </div>
-                        
-                        <!-- Pax Slider -->
                         <div>
                             <div class="flex justify-between mb-4">
-                                <label class="text-xs font-bold uppercase text-slate-400">Participantes (HVAC & AV Load)</label>
+                                <label class="text-xs font-bold uppercase text-slate-400">Participantes Atendidos</label>
                                 <span id="val-pax" class="text-xl font-black text-sky-600">4.500</span>
                             </div>
                             <input type="range" min="3000" max="6000" step="100" value="4500" id="sim-pax" oninput="runSim()">
@@ -228,7 +333,7 @@
                     <div class="space-y-4">
                         <div class="p-6 bg-slate-900 text-white rounded-3xl flex justify-between items-center shadow-lg border border-slate-800">
                             <div>
-                                <p class="text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-1">Total Infraestrutura 2028</p>
+                                <p class="text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-1">Custo Projetado Overlay 2028</p>
                                 <h4 id="res-total" class="text-3xl font-black">R$ 42,71 Mi</h4>
                             </div>
                             <div class="text-right">
@@ -239,11 +344,11 @@
                         
                         <div class="grid grid-cols-2 gap-3">
                             <div class="p-4 bg-white border border-slate-100 rounded-2xl">
-                                <p class="text-[9px] font-bold text-slate-400 uppercase">Estrutura & Pisos</p>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase">Estrutura & Piso Técnico</p>
                                 <p id="res-str" class="text-sm font-bold text-slate-800">R$ 19,46M</p>
                             </div>
                             <div class="p-4 bg-white border border-slate-100 rounded-2xl">
-                                <p class="text-[9px] font-bold text-slate-400 uppercase">Climatização & Diesel</p>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase">HVAC & Energia Off-Grid</p>
                                 <p id="res-hvac" class="text-sm font-bold text-slate-800">R$ 8,25M</p>
                             </div>
                             <div class="p-4 bg-white border border-slate-100 rounded-2xl">
@@ -251,7 +356,7 @@
                                 <p id="res-acu" class="text-sm font-bold text-slate-800">R$ 11,20M</p>
                             </div>
                             <div class="p-4 bg-white border border-slate-100 rounded-2xl">
-                                <p class="text-[9px] font-bold text-slate-400 uppercase">AV & Rede Interna</p>
+                                <p class="text-[9px] font-bold text-slate-400 uppercase">Logística & TI</p>
                                 <p id="res-av" class="text-sm font-bold text-slate-800">R$ 3,80M</p>
                             </div>
                         </div>
@@ -263,25 +368,25 @@
         <!-- PATROCÍNIO -->
         <section id="sec-sponsorship" class="hidden fade-in space-y-6">
             <div class="glass-card rounded-3xl p-6 md:p-8 border-l-[6px] border-emerald-500">
-                <h3 class="text-xl font-bold text-slate-900 mb-2">Meta de Redução: Inscrição R$ 1.800</h3>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">Meta Financeira: Target R$ 1.800/Pax</h3>
                 <p class="text-sm text-slate-600 mb-8 leading-relaxed">
-                    Para viabilizar o evento com o ticket médio desejado de <strong>R$ 1.800</strong>, o patrocínio corporativo deve absorver 81% do custo de infraestrutura.
+                    Para alcançar o ticket médio desejado de **R$ 1.800**, o patrocínio deve cobrir o custo de overlay. O gap atual no cenário realista é de R$ 34,61 Mi.
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="p-6 bg-emerald-50 rounded-3xl border border-emerald-100">
-                        <p class="text-[10px] font-bold text-emerald-800 uppercase mb-2">Inscrições (Tickets)</p>
-                        <p class="text-3xl font-black text-slate-900">R$ 8,10 Mi</p>
-                        <p class="text-[10px] text-emerald-600 mt-2 font-bold">4.500 pax x R$ 1.800</p>
+                        <p class="text-[10px] font-bold text-emerald-800 uppercase mb-2">Ticket Médio Proposto</p>
+                        <p class="text-3xl font-black text-slate-900">R$ 1.800</p>
+                        <p class="text-[10px] text-emerald-600 mt-2 font-bold">Total Arrecadado: R$ 8,10 Mi</p>
                     </div>
                     <div class="p-6 bg-slate-900 rounded-3xl text-white border border-slate-800">
-                        <p class="text-[10px] font-bold text-sky-400 uppercase mb-2">Gap de Overlay</p>
+                        <p class="text-[10px] font-bold text-sky-400 uppercase mb-2">Captação Necessária</p>
                         <p class="text-3xl font-black text-white">R$ 34,61 Mi</p>
-                        <p class="text-[10px] text-slate-400 mt-2 font-bold">Patrocínio p/ Equilíbrio</p>
+                        <p class="text-[10px] text-slate-400 mt-2 font-bold">Patrocínio Corporativo Full</p>
                     </div>
                     <div class="p-6 bg-white rounded-3xl border border-slate-100 shadow-sm flex flex-col justify-center">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-3">Pipeline Comercial Sugerido</p>
-                        <ul class="text-[11px] space-y-2">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-3">Modelagem Comercial</p>
+                        <ul class="text-[11px] space-y-2 font-medium">
                             <li class="flex justify-between"><span>Venda de Estandes:</span> <span class="font-bold">R$ 15.0 Mi</span></li>
                             <li class="flex justify-between"><span>Cota Master (5x):</span> <span class="font-bold">R$ 10.0 Mi</span></li>
                             <li class="flex justify-between"><span>Naming Rights:</span> <span class="font-bold">R$ 9.6 Mi</span></li>
@@ -291,91 +396,29 @@
             </div>
         </section>
 
-        <!-- REFERÊNCIAS EXPANDIDAS (15 FONTES) -->
+        <!-- REFERÊNCIAS -->
         <section id="sec-refs" class="hidden fade-in space-y-6">
-            <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200">
+             <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200">
                 <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
                     <svg class="w-5 h-5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                    Base de Dados de Engenharia (15 Referências Auditáveis)
+                    Repositório de Dados Técnicos (Referências Auditáveis)
                 </h3>
-                
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Referências -->
-                    <a href="https://www.bcb.gov.br/content/focus/focus/R20260213.pdf" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Macroeconomia</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Relatório Focus (13/02/26)</h5>
-                        <p class="text-[10px] text-slate-500">Projeção de IPCA e Câmbio p/ 2028.</p>
-                    </a>
-                    <a href="https://weather.metoffice.gov.uk/travel/holiday-weather/americas/brazil/rio-de-janeiro" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Clima</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Met Office Holiday Weather</h5>
-                        <p class="text-[10px] text-slate-500">Histórico de UR% e Temp em Novembro.</p>
-                    </a>
-                    <a href="https://www.trane.com.br/commercial/latin-america/br/pt/services/rentals/aluguel-de-equipmentos/aluguel-de-chillers.html" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">HVAC</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Trane Rental Chiller Specs</h5>
-                        <p class="text-[10px] text-slate-500">Eficiência IPLV de equipamentos locados.</p>
-                    </a>
-                    <a href="https://monografias.poli.ufrj.br/monografias/monopoli10013507.pdf" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Acústica</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Estudo Ruído SDU (UFRJ)</h5>
-                        <p class="text-[10px] text-slate-500">Curvas de ruído aeronáutico no entorno.</p>
-                    </a>
-                    <a href="https://www.gov.br/anp/pt-br/assuntos/precos/arq-sintese-semanal" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Combustível</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Sintese ANP (Diesel B S10)</h5>
-                        <p class="text-[10px] text-slate-500">Base p/ cálculo de OPEX de energia.</p>
-                    </a>
-                    <a href="https://www.sigapregao.com.br/app/licitacao/5406629" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Custo Público</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Licitação Siga Pregão 5406</h5>
-                        <p class="text-[10px] text-slate-500">Benchmarks de locação de geradores.</p>
-                    </a>
-                    <a href="https://marinadagloriaeventos.com.br/espacos/" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Engenharia Local</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Marina da Glória - Espaços</h5>
-                        <p class="text-[10px] text-slate-500">Áreas cobertas fixas e P.D. técnico.</p>
-                    </a>
-                    <a href="https://handbook.ashrae.org/Handbooks/A23/IP/A23_Ch49/a23_ch49_ip.aspx" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Norma HVAC</p>
+                    <div class="p-4 border border-slate-100 rounded-2xl bg-slate-50">
+                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Engenharia Acústica</p>
                         <h5 class="text-[11px] font-bold text-slate-800">ASHRAE Ch. 49 Handbook</h5>
-                        <p class="text-[10px] text-slate-500">Parâmetros de conforto em auditórios.</p>
-                    </a>
-                    <a href="https://svantek.com/academy/noise-criteria-and-rating/" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Norma Acústica</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Noise Criteria (NC) Targets</h5>
-                        <p class="text-[10px] text-slate-500">Alvos NC 25-30 para congressos médicos.</p>
-                    </a>
-                    <a href="https://artrio.com/files/protocolo_covid.pdf" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Segurança</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Protocolo Operacional Local</h5>
-                        <p class="text-[10px] text-slate-500">Limites CBMERJ para Marina da Glória.</p>
-                    </a>
-                    <a href="https://vancouver.ca/files/cov/demand-analysis-study-cultural-performance-event-spaces-northeast-false-creek-hastings-park.pdf" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Capacidade</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Cultural Space Demand Study</h5>
-                        <p class="text-[10px] text-slate-500">Fórmulas de densidade de assentos.</p>
-                    </a>
-                    <a href="https://gaxtent.com/blog/faq/clear-span-tent-cost-rental-vs-purchase/" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Benchmark Custo</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Clear Span Tent Guide</h5>
-                        <p class="text-[10px] text-slate-500">Análise de custo por ft² temporário.</p>
-                    </a>
-                    <a href="https://www.anac.gov.br/assuntos/legislacao/legislacao-1/rbha-e-rbac/rbac/rbac-161" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Legislação</p>
+                        <p class="text-[10px] text-slate-500">Normas de controle de ruído em auditórios (NC 25-30).</p>
+                    </div>
+                    <div class="p-4 border border-slate-100 rounded-2xl bg-slate-50">
+                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Logística de Ar</p>
                         <h5 class="text-[11px] font-bold text-slate-800">RBAC 161 (ANAC)</h5>
-                        <p class="text-[10px] text-slate-500">Zoneamento de ruído aeronáutico.</p>
-                    </a>
-                    <a href="https://www.businessinsider.com/saudi-business-conference-davos-in-desert-costs-15000-attend-2023-9" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Benchmark</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Future Investment Initiative</h5>
-                        <p class="text-[10px] text-slate-500">Custo per capita de eventos world-class.</p>
-                    </a>
-                    <a href="https://lume.ufrgs.br/bitstream/handle/10183/7962/000563187.pdf" target="_blank" class="block p-4 border border-slate-100 rounded-2xl bg-slate-50 hover:border-sky-300 transition group">
-                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Monitoramento</p>
-                        <h5 class="text-[11px] font-bold text-slate-800">Medição Ruído Aeroportuário</h5>
-                        <p class="text-[10px] text-slate-500">Metodologia NBR 10151/10152.</p>
-                    </a>
+                        <p class="text-[10px] text-slate-500">Plano de Zoneamento de Ruído Aeroportuário SDU.</p>
+                    </div>
+                    <div class="p-4 border border-slate-100 rounded-2xl bg-slate-50">
+                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Clima</p>
+                        <h5 class="text-[11px] font-bold text-slate-800">Met Office Holiday Climate</h5>
+                        <p class="text-[10px] text-slate-500">Médias históricas de umidade e temperatura Rio Nov.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -383,10 +426,12 @@
     </main>
 
     <footer class="bg-white border-t border-slate-100 py-6 text-center text-[9px] text-slate-400 font-medium">
-        © 2026 OTOSIG | Estudo de Engenharia & Viabilidade de Overlay v3.0
+        © 2026 OTOSIG | Estudo de Engenharia de Overlay & Viabilidade de Sítio v3.0
     </footer>
 
     <script>
+        let techChart = null;
+
         function nav(id) {
             document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
             document.getElementById('sec-'+id).classList.remove('hidden');
@@ -394,45 +439,77 @@
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-active', 'text-slate-900'));
             document.getElementById('nav-'+id).classList.add('tab-active');
             document.getElementById('nav-'+id).classList.remove('text-slate-500');
+
+            if (id === 'tech') {
+                setTimeout(initTechChart, 100);
+            }
+        }
+
+        function initTechChart() {
+            const ctx = document.getElementById('techChart').getContext('2d');
+            if (techChart) techChart.destroy();
+            
+            techChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Ruído SDU (dB)', 'Cross-Talk (dB)', 'Temp. Nov (°C)', 'UR (%)'],
+                    datasets: [{
+                        label: 'Ambiente Natural',
+                        data: [85, 75, 33, 80],
+                        backgroundColor: '#e2e8f0',
+                        borderRadius: 8,
+                    }, {
+                        label: 'Alvo Mitigado',
+                        data: [30, 25, 22, 50],
+                        backgroundColor: '#0ea5e9',
+                        borderRadius: 8,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            grid: { color: '#f1f5f9' },
+                            ticks: { font: { size: 10, family: 'Plus Jakarta Sans' } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { size: 10, family: 'Plus Jakarta Sans', weight: 'bold' } }
+                        }
+                    }
+                }
+            });
         }
 
         function runSim() {
-            // Inputs
             const area = parseInt(document.getElementById('sim-area').value);
             const pax = parseInt(document.getElementById('sim-pax').value);
-            
-            // Labels
             document.getElementById('val-area').innerText = area.toLocaleString();
             document.getElementById('val-pax').innerText = pax.toLocaleString();
 
-            // Matemática Calibrada (Proporções do PDF Realista de 42.7M @ 15k m²)
-            // Fatores de Custo por m² (Injetando inflação e complexidade)
-            const factorStr = 1297.33; // R$/m2 de estrutura base
-            const factorHvac = 550.00; // R$/m2 climatização + energia
-            const factorAcu = 746.67; // R$/m2 acústica (focada nas salas/plenária)
-            const factorAV = 253.33;  // R$/m2 TI e rede
+            const factorStr = 1297.33;
+            const factorHvac = 550.00;
+            const factorAcu = 746.67;
+            const factorLog = 253.33;
 
-            // Cálculos
             let cStr = area * factorStr;
-            let cHvac = (area * factorHvac) * (pax / 4500); // Escala com pessoas tbm
+            let cHvac = (area * factorHvac) * (pax / 4500); 
             let cAcu = area * factorAcu;
-            let cAv = area * factorAV;
+            let cLog = area * factorLog;
+            let total = cStr + cHvac + cAcu + cLog;
 
-            let total = cStr + cHvac + cAcu + cAv;
-
-            // Formatação Mi
             const fmt = (v) => "R$ " + (v/1000000).toFixed(2) + "M";
-            
             document.getElementById('res-total').innerText = "R$ " + (total/1000000).toFixed(2) + " Mi";
             document.getElementById('res-pax').innerText = "R$ " + (total/pax).toLocaleString('pt-BR', {maximumFractionDigits: 0});
-            
             document.getElementById('res-str').innerText = fmt(cStr);
             document.getElementById('res-hvac').innerText = fmt(cHvac);
             document.getElementById('res-acu').innerText = fmt(cAcu);
-            document.getElementById('res-av').innerText = fmt(cAv);
+            document.getElementById('res-av').innerText = fmt(cLog);
         }
 
-        // Initialize
         runSim();
     </script>
 </body>
